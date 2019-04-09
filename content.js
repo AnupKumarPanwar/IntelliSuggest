@@ -3,18 +3,17 @@ suggest();
 function suggest() {
   var $suggestionSpan = $("<span>", { id: "suggestion" })
     .css("padding", "5px")
-    .css("position", "fixed")
+    .css("position", "static")
     .css("background", "#00aabb")
     .css("border-radius", ".4em")
     .css("color", "#fff")
     .css("top", "0px")
     .css("text-align", "center")
     .css("left", "0px")
-    .css("width", "100%")
     .text("");
   var sentence = "";
 
-  $("input:text, textarea, [contenteditable]").focus(function() {
+  $("input:text, textarea, [contenteditable]").focus(function () {
     var $textObj = $(this);
     sentence = "";
     var previousSentence = "";
@@ -22,7 +21,13 @@ function suggest() {
     var delimeters = [".", "?", "!"];
     $("#suggestion").html(suggestion);
 
-    $textObj.on("input", function() {
+    $textObj.on("input", function () {
+
+      if ($('#suggestion').length == 0) {
+        $textObj.after($suggestionSpan);
+      }
+
+
       var value;
 
       if ($textObj.is("[contenteditable]")) {
@@ -54,9 +59,9 @@ function suggest() {
 
       $.get(
         "https://www.google.com/complete/search?q=" +
-          sentence +
-          "&cp=11&client=psy-ab&authuser=0",
-        function(data) {
+        sentence +
+        "&cp=11&client=psy-ab&authuser=0",
+        function (data) {
           if (data[1]) {
             suggestion = data[1][0][0];
             $("#suggestion").html(suggestion);
@@ -65,12 +70,15 @@ function suggest() {
       );
     });
 
-    $textObj.on("unfocus", function() {
+    $textObj.on("unfocus", function () {
       suggestion = "";
       $("#suggestion").html(suggestion);
     });
 
-    $textObj.on("keydown", function(e) {
+    $textObj.on("keydown", function (e) {
+      if ($('#suggestion').length == 0) {
+        return;
+      }
       var keyCode = e.keyCode || e.which;
       if (keyCode == 9) {
         if ($("#suggestion").html() != "") {
@@ -92,12 +100,16 @@ function suggest() {
           completeText = completeText.trim();
 
           $textObj.val(completeText);
+          suggestion = "";
+        $("#suggestion").html("");
+          $suggestionSpan.remove();
 
           $("#suggestion").html("");
         }
       } else if (keyCode == 27) {
         suggestion = "";
         $("#suggestion").html("");
+        $suggestionSpan.remove();
       }
     });
 

@@ -1,5 +1,5 @@
 {
-  "name": "Suggester",
+  "name": "IntelliSuggest",
   "version": "1.0",
   "description": "Sentence autocomplete suggester!",
   "permissions": [

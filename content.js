@@ -9,8 +9,8 @@ function suggest() {
     .css("color", "#fff")
     .css("top", "0px")
     .css("text-align", "center")
-    .css("width", "100%")
     .css("left", "0px")
+    .css("width", "100%")
     .text("");
   var sentence = "";
 

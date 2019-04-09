@@ -1,0 +1,30 @@
+{
+  "name": "Suggester",
+  "version": "1.0",
+  "description": "Sentence autocomplete suggester!",
+  "permissions": [
+    "tabs",
+    "<all_urls>"
+  ],
+  "background": {
+    "scripts": [
+      "jquery-3.1.1.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "run_at": "document_end",
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "jquery-3.1.1.js",
+        "content.js"
+      ]
+    }
+  ],
+  "manifest_version": 2,
+  "browser_action": {
+    "default_title": "Sentence autocomplete suggester!"
+  }
+}
